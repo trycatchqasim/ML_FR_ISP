@@ -1,0 +1,26 @@
+[
+  {
+    "Approach": "Random / Naive Floor",
+    "PR-AUC": 0.3229,
+    "Precision@10": 0.3229,
+    "Precision@50": 0.3229
+  },
+  {
+    "Approach": "Week 4 Hand-Coded Rule",
+    "PR-AUC": 0.6216,
+    "Precision@10": 1.0,
+    "Precision@50": 1.0
+  },
+  {
+    "Approach": "Logistic Regression",
+    "PR-AUC": 0.7964,
+    "Precision@10": 1.0,
+    "Precision@50": 1.0
+  },
+  {
+    "Approach": "Random Forest (Constrained)",
+    "PR-AUC": 0.8452,
+    "Precision@10": 1.0,
+    "Precision@50": 1.0
+  }
+]

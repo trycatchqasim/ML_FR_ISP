@@ -1,0 +1,31 @@
+{
+  "evaluation_results": [
+    {
+      "Strategy": "Naive Floor (Random)",
+      "PR-AUC": 0.3229,
+      "Precision@10": 0.3229,
+      "Precision@50": 0.3229
+    },
+    {
+      "Strategy": "Rule-Based Baseline (Week 4)",
+      "PR-AUC": 0.6216,
+      "Precision@10": 1.0,
+      "Precision@50": 1.0
+    },
+    {
+      "Strategy": "Logistic Regression",
+      "PR-AUC": 0.7964,
+      "Precision@10": 1.0,
+      "Precision@50": 1.0
+    },
+    {
+      "Strategy": "Random Forest (Constrained)",
+      "PR-AUC": 0.8443,
+      "Precision@10": 1.0,
+      "Precision@50": 1.0
+    }
+  ],
+  "total_scored": 63856,
+  "base_rate": 0.3229140566274117,
+  "top_action": "MONITOR_ONLY"
+}
