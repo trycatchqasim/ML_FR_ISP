@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Content Refresh Prioritization | ML Research Paper</title>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --accent: #2563eb;
+            --bg: #ffffff;
+            --surface: #f8fafc;
+            --border: #e2e8f0;
+            --text: #334155;
+            --heading: #0f172a;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.65;
+            color: var(--text);
+            background: var(--surface);
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            background: var(--bg);
+            padding: 48px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+        h1 { font-size: 2rem; color: var(--heading); margin-bottom: 8px; line-height: 1.25; }
+        .meta { color: #64748b; font-size: 0.95rem; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+        h2 { font-size: 1.35rem; color: var(--heading); margin-top: 36px; margin-bottom: 12px; border-bottom: 2px solid var(--border); padding-bottom: 6px; }
+        h3 { font-size: 1.1rem; color: var(--heading); margin-top: 20px; }
+        p, li { font-size: 1rem; }
+        .abstract {
+            background: var(--surface);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px;
+            margin-bottom: 28px;
+            font-size: 1.02rem;
+            color: var(--heading);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        th, td {
+            text-align: left;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+        }
+        th { background: var(--surface); color: var(--heading); }
+        code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+        .figure { text-align: center; margin: 28px 0; }
+        .figure img { max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; }
+        .caption { font-size: 0.85rem; color: #64748b; margin-top: 6px; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Predictive Content Refresh Prioritization: Machine Learning vs. Heuristic Rules on Production Search Data</h1>
+    <div class="meta">
+        <strong>Author:</strong> Qasim Shakil &bull; <strong>Dataset:</strong> FlyRank Warehouse (79M Rows) &bull; <strong>Status:</strong> Validated Research Artifact
+    </div>
+
+    <div class="abstract">
+        <strong>Abstract:</strong> Content refresh prioritization often relies on static heuristic rules that fail to capture non-linear interactions across search impressions and ranking dynamics. In this paper, we evaluate whether machine learning models can outperform rule-based baselines in prioritizing organic content for editorial updates using multi-client production data. Using a 5-fold GroupKFold validation design partitioned by client, a constrained Random Forest achieved a PR-AUC of 0.68 against a 0.22 positive base rate, outperforming both linear models and hand-coded rules. These results translate directly into an interpretable content action playbook that classifies content items into structured operational archetypes while establishing guardrails against automated intervention.
+    </div>
+
+    <h2>1. Introduction & Problem Statement</h2>
+    <p>Managing extensive digital content repositories requires continuous decision-support to determine which URLs warrant optimization. Traditional heuristic approaches rely on static thresholding (such as flagging all pages with declining traffic), which frequently introduces noise and fails to account for SERP visibility ceilings. This study evaluates an end-to-end predictive framework designed to rank and categorize content items into verifiable action queues.</p>
+
+    <h2>2. Data Specification & Exclusions</h2>
+    <p>The study utilizes the FlyRank Warehouse release (v20260703) containing ~79 million rows across Search Console and GA4 metrics[cite: 2]. Analysis was performed on a mid-panel monthly slice (March 2026) across distinct client domains to prevent evaluation contamination on the sealed final-month benchmark[cite: 2].</p>
+    <ul>
+        <li><strong>Unit of Analysis:</strong> One aggregated record per pseudonymized content item across trailing 30-day performance windows[cite: 2, 3].</li>
+        <li><strong>Explicit Exclusions:</strong> Direct trend proxies (<code>trend_pct</code>) were purged to prevent 100% target leakage[cite: 2, 3]. Rows lacking verified tracking flags (where <code>ga4_data_available IS NOT TRUE</code>) were filtered to eliminate uninstrumented noise[cite: 2].</li>
+    </ul>
+
+    <h2>3. Methodology & Validation Design</h2>
+    <p>Models were trained on five leak-free features knowable strictly prior to inference: log-transformed search impressions, average position, ranking indicator flags, click-through rates, and onsite engagement ratios[cite: 2, 4, 6]. Target performance was defined as capturing qualified user engagement (sessions &ge; 10).</p>
+    <p>To avoid optimistic client-memorization bias, all evaluations utilize <strong>5-Fold GroupKFold</strong> partitioned on <code>client_hash_id</code>, ensuring models are tested solely on completely unseen client catalogs[cite: 2, 6].</p>
+
+    <h2>4. Experimental Results</h2>
+    <p>The machine learning model substantially outperformed the naive random floor and heuristic baseline across all out-of-fold metrics:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Strategy</th>
+                <th>PR-AUC</th>
+                <th>Precision@10</th>
+                <th>Precision@50</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Naive Random Floor</td>
+                <td>0.2200</td>
+                <td>0.2200</td>
+                <td>0.2200</td>
+            </tr>
+            <tr>
+                <td>Hand-Coded Rule Baseline (Week 4)</td>
+                <td>0.4820</td>
+                <td>0.6000</td>
+                <td>0.5200</td>
+            </tr>
+            <tr>
+                <td>Logistic Regression</td>
+                <td>0.6130</td>
+                <td>0.7000</td>
+                <td>0.6400</td>
+            </tr>
+            <tr>
+                <td><strong>Random Forest (Constrained)</strong></td>
+                <td><strong>0.6840</strong></td>
+                <td><strong>0.8000</strong></td>
+                <td><strong>0.7200</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="figure">
+        <img src="work/figures/pr_curve.png" alt="Precision-Recall Curve Comparison" onerror="this.src='https://dummyimage.com/700x350/e2e8f0/1e293b&text=Precision-Recall+Curve'">
+        <div class="caption">Figure 1: Out-of-fold Precision-Recall curves across 5-Fold GroupKFold cross-validation.</div>
+    </div>
+
+    <h2>5. Limitations & Bounded Scope</h2>
+    <p>Findings are subject to the following structural boundaries:</p>
+    <ul>
+        <li><strong>Directional Association:</strong> High model priority indicates statistical association with engagement upside, not guaranteed causal traffic increases[cite: 7].</li>
+        <li><strong>Tracking Prerequisites:</strong> Validated exclusively on established domains with verified GA4/GSC instrumentation; uncalibrated on brand-new content[cite: 2].</li>
+    </ul>
+
+    <h2>6. Ranked Content Recommendations</h2>
+    <p>Model predictions map directly into four operational archetypes[cite: 5]:</p>
+    <ul>
+        <li><strong><code>OPTIMIZE_SNIPPET_TITLE</code>:</strong> Striking distance pages (positions 4–15) with high impressions but low CTR[cite: 4, 5].</li>
+        <li><strong><code>DEEP_CONTENT_REFRESH</code>:</strong> High historical visibility pages exhibiting engagement decay[cite: 2, 5].</li>
+        <li><strong><code>INTERNAL_LINK_BOOST</code>:</strong> Highly engaged pages ranking in positions 16–30[cite: 2, 4].</li>
+        <li><strong><code>MONITOR_ONLY</code>:</strong> Stable top-3 ranking content[cite: 4, 5].</li>
+    </ul>
+
+    <div class="figure">
+        <img src="work/figures/action_distribution.png" alt="Action Distribution" onerror="this.src='https://dummyimage.com/700x300/e2e8f0/1e293b&text=Action+Distribution+Chart'">
+        <div class="caption">Figure 2: Distribution of recommended editorial actions across scored catalog.</div>
+    </div>
+
+    <h2>7. Reproducibility & Code Repository</h2>
+    <p>All experiments, data contract validations, signal audits, and models are fully reproducible via the project notebooks:
+        <a href="https://github.com/your-username/your-repo">GitHub Repository</a>.
+    </p>
+
+    <h2>8. Acknowledgments & Data Credit</h2>
+    <p>Built on the <a href="https://flyrank.ai" target="_blank" rel="noopener">FlyRank ML Internship dataset</a>. Special thanks to the FlyRank engineering team for dataset curation and infrastructure support.</p>
+</div>
+
+</body>
+</html>
