@@ -1,0 +1,14 @@
+{
+  "total_items_scored": 63856,
+  "action_distribution": {
+    "MONITOR_ONLY": 48745,
+    "OPTIMIZE_SNIPPET_TITLE": 7927,
+    "DEEP_CONTENT_REFRESH": 7047,
+    "INTERNAL_LINK_BOOST": 137
+  },
+  "top_10_mean_score": 0.9940520146045957,
+  "export_files": [
+    "work/outputs/actionable_playbook_queue.csv",
+    "work/figures/playbook_action_distribution.png"
+  ]
+}
