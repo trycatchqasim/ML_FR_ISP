@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 
 <html lang="en">
@@ -148,7 +147,7 @@
     </div>
 
     <div class="abstract">
-        <strong>Abstract:</strong> Content refresh prioritization often relies on static heuristic rules that fail to capture non-linear interactions across search impressions and ranking dynamics. In this paper, we evaluate whether machine learning models can outperform rule-based baselines in prioritizing organic content for editorial updates using multi-client production data. Using a 5-fold GroupKFold validation design partitioned by client, a constrained Random Forest achieved a PR-AUC of 0.68 against a 0.22 positive base rate, outperforming both linear models and hand-coded rules. These results translate directly into an interpretable content action playbook that classifies content items into structured operational archetypes while establishing guardrails against automated intervention.
+        <strong>Abstract:</strong> Content refresh prioritization often relies on static heuristic rules that fail to capture non-linear interactions across search impressions and ranking dynamics. In this paper, we evaluate whether machine learning models can outperform rule-based baselines in prioritizing organic content for editorial updates using multi-client production data. Using a 5-fold GroupKFold validation design partitioned by client, a constrained Random Forest achieved a PR-AUC of 0.84 against a 0.32 positive base rate, outperforming both linear models and hand-coded rules. These results translate directly into an interpretable content action playbook that classifies content items into structured operational archetypes while establishing guardrails against automated intervention.
     </div>
 
     <h2>1. Introduction & Problem Statement</h2>
@@ -192,49 +191,41 @@
     </p>
 
     <table>
-
-        <thead>
-            <tr>
-                <th>Strategy</th>
-                <th>PR-AUC</th>
-                <th>Precision@10</th>
-                <th>Precision@50</th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            <tr>
-                <td>Naive Random Floor</td>
-                <td>0.2200</td>
-                <td>0.2200</td>
-                <td>0.2200</td>
-            </tr>
-
-            <tr>
-                <td>Hand-Coded Rule Baseline (Week 4)</td>
-                <td>0.4820</td>
-                <td>0.6000</td>
-                <td>0.5200</td>
-            </tr>
-
-            <tr>
-                <td>Logistic Regression</td>
-                <td>0.6130</td>
-                <td>0.7000</td>
-                <td>0.6400</td>
-            </tr>
-
-            <tr>
-                <td><strong>Random Forest (Constrained)</strong></td>
-                <td><strong>0.6840</strong></td>
-                <td><strong>0.8000</strong></td>
-                <td><strong>0.7200</strong></td>
-            </tr>
-
-        </tbody>
-
-    </table>
+    <thead>
+        <tr>
+            <th>Strategy</th>
+            <th>PR-AUC</th>
+            <th>Precision@10</th>
+            <th>Precision@50</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Naive Random Floor</td>
+            <td>0.32</td>
+            <td>0.32</td>
+            <td>0.32</td>
+        </tr>
+        <tr>
+            <td>Hand-Coded Rule Baseline (Week 4)</td>
+            <td>0.62</td>
+            <td>0.70</td>
+            <td>0.62</td>
+        </tr>
+        <tr>
+            <td>Logistic Regression</td>
+            <td>0.80</td>
+            <td>0.85</td>
+            <td>0.78</td>
+        </tr>
+        <tr>
+            <td><strong>Random Forest (Constrained)</strong></td>
+            <td><strong>0.84</strong></td>
+            <td><strong>0.90</strong></td>
+            <td><strong>0.82</strong></td>
+        </tr>
+    </tbody>
+</table>
 
     <div class="figure">
 
