@@ -34,7 +34,6 @@
         h1 { font-size: 2rem; color: var(--heading); margin-bottom: 8px; line-height: 1.25; }
         .meta { color: #64748b; font-size: 0.95rem; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
         h2 { font-size: 1.35rem; color: var(--heading); margin-top: 36px; margin-bottom: 12px; border-bottom: 2px solid var(--border); padding-bottom: 6px; }
-        h3 { font-size: 1.1rem; color: var(--heading); margin-top: 20px; }
         p, li { font-size: 1rem; }
         .abstract {
             background: var(--surface);
@@ -87,8 +86,8 @@
     </ul>
 
     <h2>3. Methodology & Validation Design</h2>
-    <p>Models were trained on five leak-free features knowable strictly prior to inference: log-transformed search impressions, average position, ranking indicator flags, click-through rates, and onsite engagement ratios[cite: 2, 4, 6]. Target performance was defined as capturing qualified user engagement (sessions &ge; 10).</p>
-    <p>To avoid optimistic client-memorization bias, all evaluations utilize <strong>5-Fold GroupKFold</strong> partitioned on <code>client_hash_id</code>, ensuring models are tested solely on completely unseen client catalogs[cite: 2, 6].</p>
+    <p>Models were trained on five leak-free features knowable strictly prior to inference: log-transformed search impressions, average position, ranking indicator flags, click-through rates, and onsite engagement ratios[cite: 2, 4]. Target performance was defined as capturing qualified user engagement (sessions &ge; 10).</p>
+    <p>To avoid optimistic client-memorization bias, all evaluations utilize <strong>5-Fold GroupKFold</strong> partitioned on <code>client_hash_id</code>, ensuring models are tested solely on completely unseen client catalogs[cite: 2].</p>
 
     <h2>4. Experimental Results</h2>
     <p>The machine learning model substantially outperformed the naive random floor and heuristic baseline across all out-of-fold metrics:</p>
@@ -131,14 +130,14 @@
     </table>
 
     <div class="figure">
-        <img src="work/figures/pr_curve.png" alt="Precision-Recall Curve Comparison" onerror="this.src='https://dummyimage.com/700x350/e2e8f0/1e293b&text=Precision-Recall+Curve'">
+        <img src="https://raw.githubusercontent.com/trycatchqasim/ML_FR_ISP/main/work/figures/pr_curve.png" alt="Precision-Recall Curve Comparison" onerror="this.onerror=null; this.src='work/figures/pr_curve.png';">
         <div class="caption">Figure 1: Out-of-fold Precision-Recall curves across 5-Fold GroupKFold cross-validation.</div>
     </div>
 
     <h2>5. Limitations & Bounded Scope</h2>
     <p>Findings are subject to the following structural boundaries:</p>
     <ul>
-        <li><strong>Directional Association:</strong> High model priority indicates statistical association with engagement upside, not guaranteed causal traffic increases[cite: 7].</li>
+        <li><strong>Directional Association:</strong> High model priority indicates statistical association with engagement upside, not guaranteed causal traffic increases.</li>
         <li><strong>Tracking Prerequisites:</strong> Validated exclusively on established domains with verified GA4/GSC instrumentation; uncalibrated on brand-new content[cite: 2].</li>
     </ul>
 
@@ -152,13 +151,13 @@
     </ul>
 
     <div class="figure">
-        <img src="work/figures/action_distribution.png" alt="Action Distribution" onerror="this.src='https://dummyimage.com/700x300/e2e8f0/1e293b&text=Action+Distribution+Chart'">
+        <img src="https://raw.githubusercontent.com/trycatchqasim/ML_FR_ISP/main/work/figures/playbook_action_distribution.png" alt="Action Distribution" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/trycatchqasim/ML_FR_ISP/main/work/figures/action_distribution.png';">
         <div class="caption">Figure 2: Distribution of recommended editorial actions across scored catalog.</div>
     </div>
 
     <h2>7. Reproducibility & Code Repository</h2>
     <p>All experiments, data contract validations, signal audits, and models are fully reproducible via the project notebooks:
-        <a href="https://github.com/trycatchqasim/ML_FR_ISP">GitHub Repository</a>.
+        <a href="https://github.com/trycatchqasim/ML_FR_ISP" target="_blank" rel="noopener">GitHub Repository</a>.
     </p>
 
     <h2>8. Acknowledgments & Data Credit</h2>
